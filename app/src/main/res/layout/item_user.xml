@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kun.randomusers.ui.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.kun.randomusers.ui.widget.SquareRelativeLayout>
