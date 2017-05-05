@@ -92,7 +92,12 @@ public class UserPresenter extends BasePresenter<UsersListView> {
                 if (view != null) {
                     view.clearUsers();
                     view.hideProgress();
-                    view.showUsers(userListPage);
+
+                    if (userListPage == null || userListPage.getUsers() == null || userListPage.getUsers().isEmpty()) {
+                        view.showEmptyScreen();
+                    } else {
+                        view.showUsers(userListPage);
+                    }
                 }
             }
 
