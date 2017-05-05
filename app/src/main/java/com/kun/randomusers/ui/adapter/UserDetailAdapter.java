@@ -66,7 +66,10 @@ public class UserDetailAdapter extends RecyclerView.Adapter<UserDetailAdapter.Vi
             position++;
         } else {
             if (position == PICTURE_POSITION) {
-                Picasso.with(holder.imageView.getContext()).load(user.getBigImageUrl()).into(holder.imageView);
+                Picasso.with(holder.imageView.getContext())
+                        .load(user.getBigImageUrl())
+                        .placeholder(R.drawable.default_avatar_large)
+                        .into(holder.imageView);
                 return;
             }
         }

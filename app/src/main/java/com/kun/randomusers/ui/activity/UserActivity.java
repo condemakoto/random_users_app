@@ -52,6 +52,7 @@ public class UserActivity extends BaseActivity implements UserListFragment.Activ
             loadUserDetailView(user);
         } else {
             startActivity(UserDetailActivity.newIntent(user, this));
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
         }
     }
 }

@@ -45,7 +45,10 @@ public class UserDetailActivity extends BaseActivity {
         User user = getIntent().getParcelableExtra(KEY_USER);
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        Picasso.with(this).load(user.getBigImageUrl()).into(imageView);
+        Picasso.with(this)
+                .load(user.getBigImageUrl())
+                .placeholder(R.drawable.default_avatar_large)
+                .into(imageView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new UserDetailAdapter(false, user));

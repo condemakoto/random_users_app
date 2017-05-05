@@ -48,6 +48,7 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
     private GridLayoutManager mLayoutManager;
     private UsersListPage users;
     private final static String KEY_USERS = "users";
+    private final int IMAGES_PER_ROW = 3;
 
     @Override
     public void onAttach(Context context) {
@@ -64,7 +65,7 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
         mAdapter = new UsersAdapter(getContext(), this);
         recyclerView.setAdapter(mAdapter);
         swipeRefreshLayout.setOnRefreshListener(this.onRefreshListener);
-        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mLayoutManager = new GridLayoutManager(getActivity(), IMAGES_PER_ROW);
         recyclerView.setLayoutManager(mLayoutManager);
 
         if (Build.VERSION.SDK_INT < 23) {
