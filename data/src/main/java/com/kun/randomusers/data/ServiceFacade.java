@@ -18,6 +18,7 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import rx.Observable;
 
 /**
  * @author Julio Kun
@@ -54,6 +55,7 @@ public class ServiceFacade {
         this.serviceInterface = adapter.create(ServiceInterface.class);
     }
 
+    /*
     public void getUsers(int page, String seed, final BaseCallback<UserPageEntity> userCallback) {
         serviceInterface.getUsers(page, seed, USER_AMOUNT_PER_PAGE, new Callback<UserPageEntity>() {
             @Override
@@ -66,6 +68,9 @@ public class ServiceFacade {
                 userCallback.onError();
             }
         });
-    }
+    }*/
 
+    public Observable<UserPageEntity> getUsers(int page, String seed) {
+        return serviceInterface.getUsers(page, seed, USER_AMOUNT_PER_PAGE);
+    }
 }

@@ -4,8 +4,15 @@ import com.kun.randomusers.data.callback.BaseCallback;
 import com.kun.randomusers.data.entity.UserPageEntity;
 import com.kun.randomusers.domain.callback.UsersCallback;
 import com.kun.randomusers.domain.mapper.UserMapper;
+import com.kun.randomusers.domain.model.User;
+import com.kun.randomusers.domain.model.UsersListPage;
 
 import javax.inject.Inject;
+
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.functions.Func1;
 
 
 /**
@@ -24,32 +31,23 @@ public class UserInteractor {
         this.mapper = new UserMapper();
     }
 
-    public void getUsers(final UsersCallback usersCallback) {
-        serviceFacade.getUsers(1, null, new BaseCallback<UserPageEntity>() {
+    public Observable<UsersListPage> getUsers(final UsersCallback usersCallback) {
+        return serviceFacade.getUsers(1, null).map(new Func1<UserPageEntity, UsersListPage>() {
             @Override
-            public void onError() {
-                usersCallback.onError();
-            }
-
-            @Override
-            public void onDataAvailable(UserPageEntity data) {
-                usersCallback.onUsersAvailable(mapper.map(data));
+            public UsersListPage call(UserPageEntity userPageEntity) {
+                return mapper.map(userPageEntity);
             }
         });
     }
 
-    public void getMoreUsers(int page, String seed, final UsersCallback usersCallback) {
+    public Observable<UsersListPage> getMoreUsers(int page, String seed, final UsersCallback usersCallback) {
         page++;
-        serviceFacade.getUsers(page, seed, new BaseCallback<UserPageEntity>() {
+        return serviceFacade.getUsers(page, seed).map(new Func1<UserPageEntity, UsersListPage>() {
             @Override
-            public void onError() {
-                usersCallback.onError();
-            }
-
-            @Override
-            public void onDataAvailable(UserPageEntity data) {
-                usersCallback.onUsersAvailable(mapper.map(data));
+            public UsersListPage call(UserPageEntity userPageEntity) {
+                return mapper.map(userPageEntity);
             }
         });
     }
+
 }
