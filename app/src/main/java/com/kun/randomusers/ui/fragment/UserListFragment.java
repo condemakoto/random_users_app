@@ -3,6 +3,7 @@ package com.kun.randomusers.ui.fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.kun.randomusers.R;
 
 import com.kun.randomusers.di.component.DaggerViewComponent;
@@ -50,6 +53,10 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
     private final static String KEY_USERS = "users";
     private final int IMAGES_PER_ROW = 3;
 
+    private final static int TIME_TO_HIDE_SKELETON_SCREEN = 3000;
+    private final Handler mHandler = new Handler();
+    private SkeletonScreen skeletonScreen;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -60,6 +67,7 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_user_list, parent, false);
         ButterKnife.bind(this, view);
         mAdapter = new UsersAdapter(getContext(), this);
@@ -67,6 +75,7 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
         swipeRefreshLayout.setOnRefreshListener(this.onRefreshListener);
         mLayoutManager = new GridLayoutManager(getActivity(), IMAGES_PER_ROW);
         recyclerView.setLayoutManager(mLayoutManager);
+        this.showSlimmerListView();
 
         if (Build.VERSION.SDK_INT < 23) {
             recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -128,6 +137,8 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
         mAdapter.addUsers(users.getUsers());
         recyclerView.setVisibility(View.VISIBLE);
         emptyUsersTV.setVisibility(View.GONE);
+
+        mHandler.postDelayed(hideSkeletonViewRunnable, TIME_TO_HIDE_SKELETON_SCREEN);
     }
 
     @Override
@@ -139,6 +150,12 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
     public void showEmptyScreen() {
         recyclerView.setVisibility(View.GONE);
         emptyUsersTV.setVisibility(View.VISIBLE);
+    }
+
+    public void showSlimmerListView() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(mAdapter)
+                .show();
     }
 
     @Override
@@ -164,4 +181,14 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
             mPresenter.onRefresh();
         }
     };
+
+    private final Runnable hideSkeletonViewRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (skeletonScreen != null) {
+                skeletonScreen.hide();
+            }
+        }
+    };
+
 }

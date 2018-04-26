@@ -36,11 +36,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User user = users.get(position);
-        holder.itemView.setTag(user);
+        if (users != null) {
+            User user = users.get(position);
+            holder.itemView.setTag(user);
 
-        Picasso.with(holder.imageView.getContext()).load(user.getThumbnailImageUrl())
-                .into(holder.imageView);
+            Picasso.with(holder.imageView.getContext()).load(user.getThumbnailImageUrl())
+                    .into(holder.imageView);
+        }
     }
 
     @Override
@@ -48,14 +50,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         if (users != null) {
             return users.size();
         }
-        return 0;
+
+        return 5;
     }
 
     public void addUsers(ArrayList<User> userList) {
-        /*if (users == null) {
-            users = new ArrayList<>();
-        }
-        users.addAll(userList);*/
         this.users = userList;
         notifyDataSetChanged();
     }

@@ -42,7 +42,7 @@ public class UserPresenter extends BasePresenter<UsersListView> {
     }
 
     public void checkRefresh(int visibleItemCount, int totalItemCount, int firstVisibleItem) {
-        if (!loading && (totalItemCount - visibleItemCount)
+        if (userListPage != null && !loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + VISIBLE_THRESHOLD)) {
             loading = true;
 
