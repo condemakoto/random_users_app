@@ -155,6 +155,7 @@ public class UserListFragment extends BaseFragment implements UsersListView, Use
     public void showSlimmerListView() {
         skeletonScreen = Skeleton.bind(recyclerView)
                 .adapter(mAdapter)
+                .load(R.layout.item_user_skeleton)
                 .show();
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kun.randomusers.R;
 import com.kun.randomusers.domain.model.User;
@@ -39,6 +40,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         if (users != null) {
             User user = users.get(position);
             holder.itemView.setTag(user);
+            holder.nameTextView.setText(user.getFirstName());
 
             Picasso.with(holder.imageView.getContext()).load(user.getThumbnailImageUrl())
                     .into(holder.imageView);
@@ -51,7 +53,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             return users.size();
         }
 
-        return 5;
+        return 0;
     }
 
     public void addUsers(ArrayList<User> userList) {
@@ -66,10 +68,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        public TextView nameTextView;
 
         public ViewHolder(View view) {
             super(view);
             this.imageView = (ImageView) view.findViewById(R.id.userImage);
+            this.nameTextView = (TextView) view.findViewById(R.id.userNameTV);
             view.setOnClickListener(onClickListener);
         }
     }
