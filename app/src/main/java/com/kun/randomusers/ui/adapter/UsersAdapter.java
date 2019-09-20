@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kun.randomusers.R;
 import com.kun.randomusers.domain.model.User;
@@ -36,11 +37,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User user = users.get(position);
-        holder.itemView.setTag(user);
+        if (users != null) {
+            User user = users.get(position);
+            holder.itemView.setTag(user);
+            holder.nameTextView.setText(user.getFirstName());
 
-        Picasso.with(holder.imageView.getContext()).load(user.getThumbnailImageUrl())
-                .into(holder.imageView);
+            Picasso.with(holder.imageView.getContext()).load(user.getThumbnailImageUrl())
+                    .into(holder.imageView);
+        }
     }
 
     @Override
@@ -48,14 +52,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         if (users != null) {
             return users.size();
         }
+
         return 0;
     }
 
     public void addUsers(ArrayList<User> userList) {
-        /*if (users == null) {
-            users = new ArrayList<>();
-        }
-        users.addAll(userList);*/
         this.users = userList;
         notifyDataSetChanged();
     }
@@ -67,10 +68,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        public TextView nameTextView;
 
         public ViewHolder(View view) {
             super(view);
             this.imageView = (ImageView) view.findViewById(R.id.userImage);
+            this.nameTextView = (TextView) view.findViewById(R.id.userNameTV);
             view.setOnClickListener(onClickListener);
         }
     }
