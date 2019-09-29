@@ -34,13 +34,26 @@ public class UsersEntity {
         }
     }
 
+    public static class Street {
+        private long number;
+        private String name;
+
+        public long getNumber() {
+            return number;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public static class Location {
-        private String street;
+        private Street street;
         private String city;
         private String state;
         private String postcode;
 
-        public String getStreet() {
+        public Street getStreet() {
             return street;
         }
 
