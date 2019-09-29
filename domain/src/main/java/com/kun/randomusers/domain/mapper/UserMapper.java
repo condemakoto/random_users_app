@@ -43,7 +43,7 @@ public class UserMapper {
         user.setUsername(userEntity.getLogin().getUsername());
 
         Location location = new Location();
-        location.setStreet(userEntity.getLocation().getStreet());
+        location.setStreet(mapStreet(userEntity.getLocation().getStreet()));
         location.setCity(userEntity.getLocation().getCity());
         location.setPostCode(userEntity.getLocation().getPostCode());
         location.setState(userEntity.getLocation().getState());
@@ -53,5 +53,14 @@ public class UserMapper {
         user.setBigImageUrl(userEntity.getPicture().getLarge());
 
         return user;
+    }
+
+    private String mapStreet(UsersEntity.Street street) {
+        if (street != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(street.getName()).append(" ").append(street.getNumber());
+            return sb.toString();
+        }
+        return "";
     }
 }
